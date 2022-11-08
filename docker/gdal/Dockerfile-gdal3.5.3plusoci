@@ -1,7 +1,10 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim
 
 #Install dependencies used by gdal and ora2pg
-RUN apt-get update && apt-get install -y -q --no-install-recommends \
+RUN sed -i "s@http://deb.debian.org@https://repo.huaweicloud.com@g" /etc/apt/sources.list && \
+apt-get install apt-transport-https ca-certificates  -y -q --no-install-recommends && \
+apt-get update && \
+apt-get install -y -q --no-install-recommends \
 libc-bin unzip ca-certificates libaio1 wget libtiff-dev libcurl4-openssl-dev \
 #Package manager for installing Oracle
 alien \
@@ -13,7 +16,8 @@ libpq-dev \
 cpanminus \
 # Proj build
 libsqlite3-dev sqlite3 pkg-config g++ make \
-unzip
+unzip \
+libexpat1 libexpat1-dev
 
 #Setup PROJ
 WORKDIR /opt
@@ -69,7 +73,7 @@ COPY ./gdal-${GDAL_VERSION}.tar.gz ./
 RUN tar -xzf gdal-${GDAL_VERSION}.tar.gz && \
 rm *.tar.gz
 WORKDIR /opt/gdal-${GDAL_VERSION}
-RUN ./configure --enable-driver-xlsx=yes --with-oci=yes --with-oci-lib=${ORACLE_HOME}/lib --with-oci-include=${ORACLE_HOME}/sdk/include --with-pg=yes
+RUN ./configure --enable-driver-xlsx=yes  --with-expat=yes --with-oci=yes --with-oci-lib=${ORACLE_HOME}/lib --with-oci-include=${ORACLE_HOME}/sdk/include --with-pg=yes
 RUN make && make install
 
 # small fixes
