@@ -1,4 +1,4 @@
-FROM rsmap/gdal:3.5.3plusoci
+FROM rsmap/gdal:gdal3.5.3plusocixlsx
 
 WORKDIR /opt
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
