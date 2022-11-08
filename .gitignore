@@ -1,0 +1,4 @@
+/docker/gdal/dist
+*.tar.gz
+/docker/gdal/gdal-3.5.3
+*.zip

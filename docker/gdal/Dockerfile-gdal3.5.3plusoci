@@ -69,7 +69,7 @@ COPY ./gdal-${GDAL_VERSION}.tar.gz ./
 RUN tar -xzf gdal-${GDAL_VERSION}.tar.gz && \
 rm *.tar.gz
 WORKDIR /opt/gdal-${GDAL_VERSION}
-RUN ./configure --with-oci=yes --with-oci-lib=${ORACLE_HOME}/lib --with-oci-include=${ORACLE_HOME}/sdk/include --with-pg=yes
+RUN ./configure --enable-driver-xlsx=yes --with-oci=yes --with-oci-lib=${ORACLE_HOME}/lib --with-oci-include=${ORACLE_HOME}/sdk/include --with-pg=yes
 RUN make && make install && rm -rf /opt/* && rm -f /usr/local/lib/libgdal.a
 
 # small fixes
